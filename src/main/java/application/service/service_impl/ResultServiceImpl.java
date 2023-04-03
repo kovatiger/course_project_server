@@ -1,6 +1,5 @@
 package application.service.service_impl;
 
-import application.dto.StatisticDto;
 import application.entity.Result;
 import application.entity.Test;
 import application.entity.User;
@@ -10,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,4 +35,19 @@ public class ResultServiceImpl implements ResultService {
         result.setResult(userResult);
         resultRepository.save(result);
     }
+
+    @Override
+    public Map<String, Long> findTestAndAmountPasses() {
+        List<Result> results = resultRepository.findAll();
+        return results.stream()
+                .collect(Collectors.groupingBy(n -> n.getTest().getTest(), Collectors.counting()));
+    }
+
+    @Override
+    public Map<String, Double> findTest() {
+        List<Result> results = resultRepository.findAll();
+        return results.stream()
+                .collect(Collectors.groupingBy(n -> n.getTest().getTest(), Collectors.averagingDouble(Result::getResult)));
+    }
+
 }
