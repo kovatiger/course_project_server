@@ -59,7 +59,9 @@ public class UserTestPanelController {
         User user = userService.findUserByLogin(testResultDto.getLogin());
         double userResult = (Double.parseDouble(testResultDto.getCorrectAnswer())
                 / Double.parseDouble(testResultDto.getGeneralAmountAnswer())) * 100;
-        resultService.save(test, user, userResult);
+        if (resultService.findResultByUserAndTestAndResult(user, test, userResult) == null) {
+            resultService.save(test, user, userResult);
+        }
         String resultToSending = String.valueOf(userResult);
         return new ResponseEntity<>(resultToSending, HttpStatus.OK);
     }

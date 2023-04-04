@@ -12,10 +12,9 @@ public class StatisticMapper {
     public static List<CountStatisticDto> getCountStatisticDto(Map<String, Long> tests) {
         List<CountStatisticDto> statisticDtos = new ArrayList<>();
         for (Map.Entry<String, Long> entry : tests.entrySet()) {
-            CountStatisticDto statisticDto = CountStatisticDto.builder()
-                    .test(entry.getKey())
-                    .countOfUsers(entry.getValue())
-                    .build();
+            CountStatisticDto statisticDto = new CountStatisticDto();
+            statisticDto.setTest(entry.getKey());
+            statisticDto.setCountOfUsers(entry.getValue().intValue());
             statisticDtos.add(statisticDto);
         }
         return statisticDtos;
@@ -24,10 +23,9 @@ public class StatisticMapper {
     public static List<ResultStatisticDto> getResultStatisticDto(Map<String, Double> results) {
         List<ResultStatisticDto> statisticDtos = new ArrayList<>();
         for (Map.Entry<String, Double> entry : results.entrySet()) {
-            ResultStatisticDto statisticDto = ResultStatisticDto.builder()
-                    .testForAverageResult(entry.getKey())
-                    .averageResult(entry.getValue())
-                    .build();
+            ResultStatisticDto statisticDto = new ResultStatisticDto();
+            statisticDto.setTestForAverageResult(entry.getKey());
+            statisticDto.setAverageResult(entry.getValue().intValue());
             statisticDtos.add(statisticDto);
         }
         return statisticDtos;
